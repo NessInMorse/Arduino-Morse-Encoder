@@ -1,5 +1,3 @@
-
-
 int LED=13;   //LED used for the conversion of text to morse code
 int startingLED=11; //LED used for signaling the start of the Morse code message
 String translation="";
