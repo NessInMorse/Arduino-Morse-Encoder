@@ -1,59 +1,42 @@
-/*
-  Voorbeeld Blink (knipper)
-  Schakel een LED een seconde lang aan daarna een seconde lang uit
-  en herhaal dat "voor altijd" 
 
-  This example code is in the public domain.
-*/
- 
-// Pin 13 heeft een LED gekoppeld op de meeste Arduino borden.
-// geef pin 13 een naam
-int wachttijd=1000; // maak een geheel getal genaamd wachttijd en geef deze de waarde 1000 
-int LED=13;
-int startingLED=11;
+
+int LED=13;   //LED used for the conversion of text to morse code
+int startingLED=11; //LED used for signaling the start of the Morse code message
 String translation="";
-int traagheid=2;
-int dot=100;
-int dash=500;
-int space=100;
-int slash=200;
-int newline=800;
+int waittime=1000;
+int slowness=2; // A variabele to make the Morse go slower, pauses take longer and uptime of LED's is longer
+int dot=100;    //length of a dot(.)
+int dash=500;   //length of a dash(-)
+int empty=100;  //length of the empty between dots and dashes within letters
+int space=200;  //length of spaces in between letters
+int slash=800;  //length of spacees in between words
 
 
-
-
-
-/* De setup routine wordt een maal uitgevoerd na reset 
-   of bij het opladen van de sketch op de Arduino
-*/
 void setup()
 {                
-  // Initialiseer de digitale pin als uitoer.
-  pinMode(LED, OUTPUT);
-  pinMode(startingLED,OUTPUT);
+  pinMode(LED, OUTPUT); //Pin used for the morse code message
+  pinMode(startingLED,OUTPUT); //Pin used for signaling to the user that the sentence is beginning
 
-  String text="je moeder is dik";
-  String Alphabet="abcdefghijklmnopqrstuvwxyz ";
+  String text="hello world"; //Text to be converted into Morse code, is only to converse downcase letters
+  String Alphabet=downcase_string("abcdefghijklmnopqrstuvwxyz ";)
+  //Current version of morse code conversion is unable to convert capital letters, numbers or reading signs
   String Morseconversion[27]={".- ","-... ","-.-. ","-.. ",". ","..-. ","--. ",".... ",".. ",".--- ","-.- ",".-.. ","-- ","-. ","--- ",".--. ","--.- ",".-. ","... ","- ","..- ","...- ","-..- ","-.-- ","--.."," / "};
 
   for(int i=0;i<text.length();i++)   
   {
     translation+=Morseconversion[Alphabet.indexOf(text[i])];
-    Serial.print("je moeder is dik");
   }
 }
 
-/* De loop routine wordt iedere keer weer opnieuw uitgevoerd
-   nadat deze is afgelopen. Wordt voor het eerst uitgevoerd 
-   nadat de setup routine is afgelopen.
-*/
+
 void loop() 
 {
   int c=0;
-  digitalWrite(startingLED, HIGH);   // schakel de LED aan (HIGH is the voltage level)
-  delay(traagheid*dot);
-  digitalWrite(startingLED, LOW);    // schakel de LED uit door het voltage LOW te maken
-  delay(traagheid*space);
+  //Signaling LED to show the message is starting, to make it easier to differentiate the message their start and rest
+  digitalWrite(startingLED, HIGH);   // LED on
+  delay(slowness*dot);
+  digitalWrite(startingLED, LOW);    // LED off
+  delay(slowness*empty);
   
   while (c<translation.length())
   {
@@ -61,29 +44,28 @@ void loop()
 
 
         case '.':
-        digitalWrite(LED, HIGH);   // schakel de LED aan (HIGH is the voltage level)
-        delay(traagheid*dot);
-        digitalWrite(LED, LOW);    // schakel de LED uit door het voltage LOW te maken
-        delay(traagheid*space);
+        digitalWrite(LED, HIGH);   
+        delay(slowness*dot);
+        digitalWrite(LED, LOW);    
+        delay(slowness*empty);
         break;
 
         case '-':
-        digitalWrite(LED, HIGH);   // schakel de LED aan (HIGH is the voltage level)
-        delay(traagheid*dash);
-        digitalWrite(LED, LOW);    // schakel de LED uit door het voltage LOW te maken
-        delay(traagheid*space);
+        digitalWrite(LED, HIGH);   
+        delay(slowness*dash);
+        digitalWrite(LED, LOW);    
+        delay(slowness*empty);
         break;
 
         case ' ':
-        delay(traagheid*slash);
+        delay(slowness*space);
         break;
 
         case '/':
-        delay(traagheid*newline);
+        delay(slowness*slash);
 
-        
-
-      delay(wachttijd);          // wait for a second
+       
+      delay(waittime);          // wait for a second
     }
     c+=1;
   }
