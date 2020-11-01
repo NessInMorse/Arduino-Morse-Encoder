@@ -2,12 +2,12 @@ int LED=13;   //LED used for the conversion of text to morse code
 int startingLED=11; //LED used for signaling the start of the Morse code message
 String translation="";
 int waittime=1000;
-int slowness=2; // A variabele to make the Morse go slower, pauses take longer and uptime of LED's is longer
+int slowness=4; // A variabele to make the Morse go slower, pauses take longer and uptime of LED's is longer
 int dot=100;    //length of a dot(.)
 int dash=500;   //length of a dash(-)
 int empty=100;  //length of the empty between dots and dashes within letters
-int space=200;  //length of spaces in between letters
-int slash=800;  //length of spacees in between words
+int space=400;  //length of spaces in between letters
+int slash=1200;  //length of spacees in between words
 
 
 void setup()
@@ -16,7 +16,7 @@ void setup()
   pinMode(startingLED,OUTPUT); //Pin used for signaling to the user that the sentence is beginning
 
   String text="hello world"; //Text to be converted into Morse code, is only to converse downcase letters
-  String Alphabet=downcase_string("abcdefghijklmnopqrstuvwxyz ";)
+  String Alphabet="abcdefghijklmnopqrstuvwxyz ";
   //Current version of morse code conversion is unable to convert capital letters, numbers or reading signs
   String Morseconversion[27]={".- ","-... ","-.-. ","-.. ",". ","..-. ","--. ",".... ",".. ",".--- ","-.- ",".-.. ","-- ","-. ","--- ",".--. ","--.- ",".-. ","... ","- ","..- ","...- ","-..- ","-.-- ","--.."," / "};
 
@@ -61,6 +61,7 @@ void loop()
 
         case '/':
         delay(slowness*slash);
+        break;
 
        
       delay(waittime);          // wait for a second
